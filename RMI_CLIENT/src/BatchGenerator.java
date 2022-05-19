@@ -26,7 +26,7 @@ public class BatchGenerator {
         this.NumberOfNodes = NumberOfNodes;
     }
 
-    public Request getReqeust () {
+    public Client_Request getReqeust () {
         generateBatch();
         String requestString = "" ;
 
@@ -36,7 +36,7 @@ public class BatchGenerator {
 		}
 		requestString += "F";
 
-		return new Request(requestString , this.numOfRequests, this.writePercentage);
+		return new Client_Request(requestString , this.numOfRequests, this.writePercentage);
     }
 
     private void generateBatch() {
@@ -52,8 +52,7 @@ public class BatchGenerator {
     }
 
     String twoNodes() {
-        return randomGenerator.nextInt(this.NumberOfNodes) + " " + randomGenerator.nextInt(this.NumberOfNodes);
-        // return randomGenerator.nextInt(NumberOfNodes) + 1 + " " + randomGenerator.nextInt(NumberOfNodes) + 1;
+        return (randomGenerator.nextInt(NumberOfNodes) + 1) + " " + (randomGenerator.nextInt(NumberOfNodes) + 1);
     }
 
     private String requestWrite() {
@@ -73,7 +72,7 @@ public class BatchGenerator {
 
     public static void main(String[] args) {
         BatchGenerator bG = new BatchGenerator();
-        Request request = bG.getReqeust();
+        Client_Request request = bG.getReqeust();
         System.out.println(request.getrequeString());
     }
 }

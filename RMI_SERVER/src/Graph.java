@@ -17,7 +17,7 @@ public class Graph {
     public Graph(String pathfile) throws IOException {
         try {
             // This block configure the logger with handler and formatter
-            fh = new FileHandler("MyLogFile.log");
+            fh = new FileHandler("ServerLogFile.log");
             LOGGER.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
@@ -88,7 +88,7 @@ public class Graph {
     public void Add_Edge(int n1,int n2)
     {
         readWriteLock.writeLock().lock();
-        HashSet set=graph.getOrDefault(n1,new HashSet<>());
+        HashSet<Integer> set=graph.getOrDefault(n1,new HashSet<>());
         set.add(n2);
         graph.put(n1,set);
         if (graph.get(n2) == null) {
@@ -103,7 +103,7 @@ public class Graph {
         if(graph.get(n1)==null)return;
         graph.get(n1).remove(n2);
         logInfo("Remove an edge from the graph: " + n1 + " " + n2);
-        readWriteLock.readLock().unlock();
+        readWriteLock.writeLock().unlock();
     }
     public String ConvertToStr(){
         readWriteLock.readLock().lock();
