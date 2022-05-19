@@ -1,6 +1,5 @@
-import rmi.registery.RMI_Remote;
+// import rmi.registery.RMI_Remote;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,14 +15,15 @@ public class Server implements RMI_Remote{
     Graph graph;
 
     public Server() throws IOException {
-        graph =new Graph("file.txt");
+        graph =new Graph("RMI_SERVER/file.txt");
     }
     @Override
     public String Execute_Batch(String batch) throws RemoteException {
         graph.logInfo("New batch request");
         Request request=new Request(graph);
+        String str = request.performOperations(batch);
         graph.logInfo("End batch request");
-        return request.performOperations(batch);
+        return str;
     }
 
     @Override
@@ -34,9 +34,13 @@ public class Server implements RMI_Remote{
             String name = "RMI_Remote";
             RMI_Remote server = new Server();
             RMI_Remote stub = (RMI_Remote) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.getRegistry(); // run on local host and on post 1099
-            registry.rebind(name, stub);
+
+            Registry reg = LocateRegistry.createRegistry(1099);
+            reg.rebind(name, stub);
+
+            // Registry registry = LocateRegistry.getRegistry(); // run on local host and on post 1099
+            // registry.rebind(name, stub);
+
             ((Server) server).graph.logInfo("Server register graph service into RMI registery");
-        
     }
 }
