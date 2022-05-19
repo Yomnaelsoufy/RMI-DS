@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "RMI_SERVER/src",
+        "RMI_CLIENT/src",
+        "RMIRegistery/src"
+    ]
+}
